@@ -8,12 +8,17 @@ const useLogout = () => {
 	const [signOut, isLoggingOut, error] = useSignOut(auth);
 	const showToast = useShowToast();
 	const logoutUser = useAuthStore((state) => state.logout);
+	const waitSeconds = () => new Promise(resolve => setTimeout(resolve, 750));
+
 
 	const handleLogout = async () => {
 		try {
+			showToast("Logout","Logging Out...","success");
+			await waitSeconds();
 			await signOut();
 			localStorage.removeItem("user-info");
 			logoutUser();
+
 		} catch (error) {
 			showToast("Error", error.message, "error");
 		}
